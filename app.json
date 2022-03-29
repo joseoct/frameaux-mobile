@@ -1,0 +1,12 @@
+{
+  "name": "frameauxmobile",
+  "displayName": "frameaux-mobile",
+  "expo": {
+    "name": "frameaux-mobile",
+    "slug": "frameaux-mobile",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
