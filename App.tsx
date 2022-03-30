@@ -7,6 +7,7 @@ import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components';
 import { ThemeProvider as MagnusProvider } from 'react-native-magnus';
 import theme from './src/global/styles/theme';
+import Toast from 'react-native-toast-message';
 
 import {
   useFonts,
@@ -16,6 +17,7 @@ import {
 } from '@expo-google-fonts/roboto'
 
 import Routes from './src/routes';
+import AppProvider from './src/hooks';
 
 const App: React.FC = () => {
   const [fontsLoaded] = useFonts({
@@ -38,9 +40,12 @@ const App: React.FC = () => {
 
       <MagnusProvider>
         <ThemeProvider theme={theme}>
-          <View style={{ backgroundColor: '#312e38', flex: 1 }}>
-            <Routes />
-          </View>
+          <AppProvider>
+            <View style={{ backgroundColor: '#312e38', flex: 1 }}>
+              <Routes />
+              <Toast />
+            </View>
+          </AppProvider>
         </ThemeProvider>
       </MagnusProvider>
     </NavigationContainer>

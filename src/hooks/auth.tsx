@@ -44,8 +44,8 @@ const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStorageData(): Promise<void> {
       const [token, user] = await AsyncStorage.multiGet([
-        '@GoBarber:token',
-        '@GoBarber:user',
+        'fa:to',
+        'fa:user',
       ]);
 
       if (token[1] && user[1]) {
@@ -61,29 +61,30 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signIn = useCallback(async ({ email, password }) => {
-    const reseponse = await api.post('sessions', { email, password });
+      const response = await api.post('sessions', { email, password });
 
-    const { token, user } = reseponse.data;
+      const { token, user } = response.data;
 
-    await AsyncStorage.multiSet([
-      ['@GoBarber:token', token],
-      ['@GoBarber:user', JSON.stringify(user)],
-    ]);
+      await AsyncStorage.multiSet([
+        ['fa:to', token],
+        ['fa:user', JSON.stringify(user)],
+      ]);
 
-    api.defaults.headers.authorization = `Bearer ${token}`;
+      api.defaults.headers.authorization = `Bearer ${token}`;
 
-    setData({ token, user });
+      setData({ token, user });
+
   }, []);
 
   const signOut = useCallback(async () => {
-    await AsyncStorage.multiRemove(['@GoBarber:user', '@GoBarber:token']);
+    await AsyncStorage.multiRemove(['fa:to', 'fa:user']);
 
     setData({} as AuthState);
   }, []);
 
   const updateUser = useCallback(
     async (user: User) => {
-      await AsyncStorage.setItem('@GoBarber:user', JSON.stringify(user));
+      await AsyncStorage.setItem('fa:user', JSON.stringify(user));
 
       setData({
         token: data.token,
