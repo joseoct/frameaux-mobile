@@ -14,8 +14,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useInterval } from 'usehooks-ts';
 import Toast from 'react-native-toast-message';
 
-import Logo from '../components/Logo';
 import { useAuth } from '../hooks/auth';
+
+import Logo from '../components/logo';
 import InputForm from '../components/InputForm';
 
 type AbbreviationTechnologies = {

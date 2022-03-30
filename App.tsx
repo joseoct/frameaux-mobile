@@ -4,9 +4,9 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { View, StatusBar } from 'react-native';
 import AppLoading from 'expo-app-loading';
-import { ThemeProvider } from 'styled-components';
-import { ThemeProvider as MagnusProvider } from 'react-native-magnus';
-import theme from './src/global/styles/theme';
+import { ThemeProvider } from 'react-native-magnus';
+import { theme } from '././src/global/theme';
+
 import Toast from 'react-native-toast-message';
 
 import {
@@ -38,16 +38,14 @@ const App: React.FC = () => {
         translucent
       />
 
-      <MagnusProvider>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
           <AppProvider>
             <View style={{ backgroundColor: '#312e38', flex: 1 }}>
               <Routes />
               <Toast />
             </View>
           </AppProvider>
-        </ThemeProvider>
-      </MagnusProvider>
+      </ThemeProvider>
     </NavigationContainer>
   );
 };

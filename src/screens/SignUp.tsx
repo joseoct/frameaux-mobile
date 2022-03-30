@@ -13,7 +13,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useInterval } from 'usehooks-ts';
 import Toast from 'react-native-toast-message';
 
-import Logo from '../components/Logo';
+import Logo from '../components/logo';
 import InputForm from '../components/InputForm';
 
 import api from '../services/api';
