@@ -9,7 +9,10 @@ import { useAuth } from '../hooks/auth';
 export type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
+
   Dashboard: undefined;
+  VerifyLevel: { technologyId: string; technologyName: string };
+  Topics: { technologyId: string; technologyName: string };
 };
 
 const Routes: React.FC = () => {
