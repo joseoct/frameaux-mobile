@@ -1,11 +1,26 @@
-import 'react-native-gesture-handler';
-
 import React from 'react';
+import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
+
+import { LogBox } from 'react-native';
+import _ from 'lodash';
+
+const _console = _.clone(console);
+console.warn = message => {
+if (message.indexOf('Setting a timer') <= -1) {
+   _console.warn(message);
+   }
+};
+
 import { View, StatusBar } from 'react-native';
 import AppLoading from 'expo-app-loading';
-import { ThemeProvider } from 'react-native-magnus';
+
+import { QueryClientProvider } from 'react-query';
+import { queryClient } from './src/services/queryClient';
+
 import { theme } from '././src/global/theme';
+
+import { NativeBaseProvider } from 'native-base';
 
 import Toast from 'react-native-toast-message';
 
@@ -34,18 +49,18 @@ const App: React.FC = () => {
     <NavigationContainer>
       <StatusBar
         barStyle="light-content"
-        backgroundColor="#312e38"
+        backgroundColor="#18181b"
         translucent
       />
 
-      <ThemeProvider theme={theme}>
-          <AppProvider>
-            <View style={{ backgroundColor: '#312e38', flex: 1 }}>
+      <QueryClientProvider client={queryClient}>
+          <NativeBaseProvider theme={theme}>
+            <AppProvider>
               <Routes />
               <Toast />
-            </View>
-          </AppProvider>
-      </ThemeProvider>
+            </AppProvider>
+          </NativeBaseProvider>
+      </QueryClientProvider>
     </NavigationContainer>
   );
 };

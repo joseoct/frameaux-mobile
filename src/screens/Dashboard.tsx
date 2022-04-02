@@ -1,116 +1,139 @@
-import React, { useEffect, useState } from 'react';
-import { Div, Text, Image, Button } from 'react-native-magnus';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback } from 'react';
+import {
+  HStack,
+  VStack,
+  Text,
+  Image,
+  Flex,
+  FlatList,
+  Heading,
+} from 'native-base';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import { useAuth } from '../hooks/auth';
 
-import api from '../services/api';
 import { Header } from '../components/Header';
-
-type Technology = {
-  id: string;
-  name: string;
-  technology_image: string;
-}
+import { useGetTechnologiesByUser } from '../services/hooks/technologies/useGetTechnologiesByUser';
+import { useGetTechnologies } from '../services/hooks/technologies/useGetTechnologies';
 
 export default function Dashboard() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
 
   const navigation = useNavigation();
 
-  const [technologies, setTechnologies] = useState<Technology[]>([]);
-  const [userTechnologies, setUserTechnologies] = useState<Technology[]>([]);
+  const { data: userTechnologies, refetch: refetchUserTechnologies } = useGetTechnologiesByUser();
 
-  useEffect(() => {
-    async function getTechnologies() {
-      const { data: technologies } = await api.get('/technologies');
+  const { data: technologies, refetch: refetchTechnologies } = useGetTechnologies();
 
-      const { data: userTechnologies } = await api.get('/user/technologies');
-
-      setTechnologies(technologies);
-      setUserTechnologies(userTechnologies);
-    }
-
-    getTechnologies();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      refetchUserTechnologies();
+      refetchTechnologies();
+    }, [])
+  )
 
   return (
     <>
-      <Header title="Bem vindo," subtitle={user.name} icon="log-out"/>
+      <Header title="Bem vindo," subtitle={user.name.split(" ")[0]} icon="log-out" />
 
-      {userTechnologies.length > 0 && (
-        <Div>
-          <Div alignItems="center">
-            <Text>Suas tecnologias</Text>
-          </Div>
+      {userTechnologies && userTechnologies.length > 0 && (
+        <VStack mt={8}>
+          <Flex alignItems="center">
+            <Heading fontSize="xl">Continue aprendendo !</Heading>
+          </Flex>
 
-          <Div row m="xl">
-            <FlatList
-              horizontal
-              data={userTechnologies}
-              keyExtractor={(technology) => technology.id}
-              renderItem={({ item: technology }) => (
-                <Div
-                  borderColor="gray300"
-                  borderWidth={1}
-                  p={16}
-                  mx={2}
+          <FlatList
+            contentContainerStyle={{ paddingRight: 16 }}
+            p={4}
+            horizontal
+            data={userTechnologies}
+            keyExtractor={(technology) => technology.id}
+            renderItem={({ item: technology }) => (
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Topics', {
+                    technologyId: technology.id,
+                    technologyName: technology.name,
+                    technologyImage: technology.technology_image,
+                  })
+                }
+              >
+                <Flex
+                  rounded={4}
+                  alignItems="center"
+                  p={8}
+                  mr={2}
+                  bg="gray.800"
                   key={technology.id}
                 >
                   <Image
                     h={70}
                     w={70}
-                    m={10}
+                    alt="Ícone da tecnologia"
                     source={{
                       uri: technology.technology_image,
                     }}
                   />
-                  <Text textAlign="center">{technology.name}</Text>
-                </Div>
-              )}
-            ></FlatList>
-          </Div>
-        </Div>
-      )}
-
-      <Div mt={16}>
-        <Div alignItems="center">
-          <Text>Tecnologias para você aprender!</Text>
-        </Div>
-
-        <Div row m="xl">
-          <FlatList
-            data={technologies}
-            keyExtractor={(technology) => technology.id}
-            renderItem={({ item: technology }) => (
-              <TouchableOpacity onPress={() => navigation.navigate('VerifyLevel', {
-                technologyId: technology.id,
-                technologyName: technology.name,
-              })}>
-                <Div
-                  row
-                  borderColor="gray700"
-                  borderWidth={1}
-                  p={8}
-                  mb={12}
-                  key={technology.id}
-                >
-                  <Image
-                    h={20}
-                    w={20}
-                    m={10}
-                    source={{
-                      uri: technology.technology_image,
-                    }}
-                  />
-                  <Text>{technology.name}</Text>
-                </Div>
+                  <Text fontWeight={700} textAlign="center">
+                    {technology.name}
+                  </Text>
+                </Flex>
               </TouchableOpacity>
             )}
           />
-        </Div>
-      </Div>
+        </VStack>
+      )}
+
+      <VStack mt={8}>
+        <Flex alignItems="center">
+          <Heading fontSize="xl">Tecnologias para você aprender !</Heading>
+        </Flex>
+
+        <FlatList
+          p={4}
+          data={technologies}
+          keyExtractor={(technology) => technology.id}
+          renderItem={({ item: technology }) => (
+            <TouchableOpacity
+              disabled={userTechnologies?.some(
+                (userTechnology) => userTechnology.id === technology.id,
+              )}
+              onPress={() =>
+                navigation.navigate('VerifyLevel', {
+                  technologyId: technology.id,
+                  technologyName: technology.name,
+                  technologyImage: technology.technology_image,
+                })
+              }
+            >
+              {!userTechnologies?.some(
+                (userTechnology) => userTechnology.id === technology.id,
+              ) && (
+                <HStack
+                  alignItems="center"
+                  space={4}
+                  p={4}
+                  bg="gray.800"
+                  mb={2}
+                  rounded={4}
+                  key={technology.id}
+                >
+                  <Image
+                    h={8}
+                    w={8}
+                    alt="Ícone da tecnologia"
+                    source={{
+                      uri: technology.technology_image,
+                    }}
+                  />
+                  <Text fontWeight={700}>{technology.name}</Text>
+                </HStack>
+              )}
+            </TouchableOpacity>
+          )}
+        />
+      </VStack>
     </>
   );
 }

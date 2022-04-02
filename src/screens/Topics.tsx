@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Div, Text } from 'react-native-magnus';
+import { Flex, HStack, VStack, Text, Box, FlatList } from 'native-base';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import api from '../services/api';
+import { api } from '../services/api';
 import { Header } from '../components/Header';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useGetTopicsByTechnology } from '../services/hooks/topics/useGetTopicsByTechnology';
+import { useGetStudentTechnology } from '../services/hooks/studentTechnology/useGetStudentTechnology';
 
 interface RouteParams {
   technologyId: string;
   technologyName: string;
+  technologyImage: string;
 }
 
 interface Topic {
   id: string;
   name: string;
+  layer: number;
 }
 
 export default function Topics() {
@@ -20,73 +24,60 @@ export default function Topics() {
   const routes = useRoute();
   const navigation = useNavigation();
 
-  const { technologyId, technologyName } = routes.params as RouteParams;
+  const { technologyId, technologyName, technologyImage } = routes.params as RouteParams;
 
-  const [topicsLayered, setTopicsLayered] = useState([]);
+  const { data: topicsLayered } = useGetTopicsByTechnology(technologyId);
 
-  useEffect(() => {
-    async function loadTopics() {
-
-      const { data: topicsLayered } = await api.get(`/technologies/${technologyId}/topics`);
-
-      setTopicsLayered(topicsLayered);
-    }
-
-    loadTopics();
-  }, []);
+  const { data: studentTechnology } = useGetStudentTechnology(technologyId);
 
   return (
     <>
-      <Header title="Tópicos de" subtitle={technologyName} />
+      <Header title="Tópicos de" subtitle={technologyName} technologyImage={technologyImage}/>
 
-      <Div flex={1}>
+      <Flex flex={1}>
         <FlatList
-          data={topicsLayered}
+          data={topicsLayered?.layerTopics}
           keyExtractor={(_, index) => index.toString()}
-          renderItem={({ item: topics }) => (
-            <Div alignItems="center">
-              <Div row>
-                {topics.map((topic: Topic) => (
-                  <TouchableOpacity key={topic.id}>
-                    <Div
+          renderItem={({ item: topicsLayered, index }) => (
+            <VStack p={4} alignItems="center">
+
+              {studentTechnology && studentTechnology.current_layer + 1 === index && (
+                <Text pb={4}>Complete os tópicos anteriores para liberar mais conteúdo !</Text>
+              )}
+
+              <HStack space={4}>
+                {topicsLayered.map((topic: Topic) => (
+                  <TouchableOpacity
+                    disabled={
+                      studentTechnology &&
+                      Math.floor(topic.layer) > studentTechnology?.current_layer
+                    }
+                    key={topic.id}
+                  >
+                    <Box
                       alignItems="center"
                       justifyContent="center"
                       w={100}
                       h={100}
-                      bg="gray800"
-                      rounded="circle"
+                      bg={
+                        studentTechnology &&
+                        Math.floor(topic.layer) >
+                          studentTechnology?.current_layer
+                          ? 'gray.500'
+                          : 'gray.800'
+                      }
+                      rounded="full"
                       key={topic.id}
-                      my={16}
-                      mx={8}
                     >
                       <Text>{topic.name}</Text>
-                    </Div>
+                    </Box>
                   </TouchableOpacity>
                 ))}
-              </Div>
-            </Div>
+              </HStack>
+            </VStack>
           )}
         />
-
-        {/* {topicsLayered.map((topics, index) => (
-          <Div row key={index}>
-            {topics.map((topic, index) => (
-              <Div
-                alignItems="center"
-                justifyContent="center"
-                w={100}
-                h={100}
-                bg="gray800"
-                rounded="circle"
-                key={index}
-                m={16}
-              >
-                <Text>{topic.name}</Text>
-              </Div>
-            ))}
-          </Div>
-        ))} */}
-      </Div>
+      </Flex>
     </>
   );
 }

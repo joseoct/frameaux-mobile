@@ -4,7 +4,8 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { Button, Div, Text } from 'react-native-magnus';
+import { Button, VStack, HStack, Text } from 'native-base';
+
 import { useNavigation } from '@react-navigation/native';
 
 import * as yup from 'yup';
@@ -16,7 +17,7 @@ import Toast from 'react-native-toast-message';
 
 import { useAuth } from '../hooks/auth';
 
-import Logo from '../components/logo';
+import Logo from '../components/Logo';
 import InputForm from '../components/InputForm';
 
 type AbbreviationTechnologies = {
@@ -101,19 +102,19 @@ const SignIn: React.FC = () => {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{ flex: 1 }}
         >
-          <Div justifyContent="center" alignItems="center" flex={1} px={30}>
-            <Div row>
-              <Text color="gray600" fontSize={88}>
+          <VStack flex={1} alignItems="center" justifyContent="center">
+            <HStack>
+              <Text color="gray.600" fontSize={88}>
                 .
               </Text>
               <Text color={technology[0].color} fontSize={88}>
                 {technology[0].abbreviation}
               </Text>
-            </Div>
+            </HStack>
 
             <Logo />
 
-            <Div w="100%">
+            <VStack w="100%" p={4} space={4}>
               <InputForm
                 name="email"
                 placeholder="E-mail"
@@ -134,29 +135,22 @@ const SignIn: React.FC = () => {
               />
 
               <Button
-                fontFamily="Roboto_700Bold"
-                fontSize={16}
-                w="100%"
-                mt="lg"
-                bg="purple500"
-                color="white"
                 onPress={handleSubmit(handleSignIn as any)}
+                backgroundColor="purple.500"
+                p={3}
               >
                 Entrar
               </Button>
-            </Div>
-
-            <Div mt={16}>
-              <Text
+              <Button
                 onPress={() => navigation.navigate('SignUp')}
-                fontFamily="Roboto_500Medium"
-                fontSize={16}
-                color="gray400"
+                variant="link"
+                colorScheme="purple"
+                p={3}
               >
                 Criar uma conta
-              </Text>
-            </Div>
-          </Div>
+              </Button>
+            </VStack>
+          </VStack>
         </ScrollView>
       </KeyboardAvoidingView>
     </>

@@ -5,7 +5,8 @@ import {
   Platform,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Button, Div, Text } from 'react-native-magnus';
+
+import { Button, VStack, HStack, Text } from 'native-base';
 
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -13,10 +14,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useInterval } from 'usehooks-ts';
 import Toast from 'react-native-toast-message';
 
-import Logo from '../components/logo';
+import Logo from '../components/Logo';
 import InputForm from '../components/InputForm';
 
-import api from '../services/api';
+import { api } from '../services/api';
 
 type AbbreviationTechnologies = {
   abbreviation: string;
@@ -119,20 +120,19 @@ const SignUp: React.FC = () => {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{ flex: 1 }}
         >
-          <Div justifyContent="center" alignItems="center" flex={1} px={30}>
-            <Div row>
-              <Text color="gray600" fontSize={88}>
+          <VStack flex={1} alignItems="center" justifyContent="center">
+            <HStack>
+              <Text color="gray.600" fontSize={88}>
                 .
               </Text>
               <Text color={technology[0].color} fontSize={88}>
                 {technology[0].abbreviation}
               </Text>
-            </Div>
+            </HStack>
 
             <Logo />
 
-            <Div w="100%">
-
+            <VStack w="100%" p={4} space={4}>
               <InputForm
                 name="name"
                 placeholder="Nome"
@@ -160,7 +160,7 @@ const SignUp: React.FC = () => {
 
               <InputForm
                 name="password_confirmation"
-                placeholder="Confirmar senha"
+                placeholder="Confirmação de senha"
                 secure
                 control={control}
                 error={errors.password_confirmation?.message}
@@ -168,29 +168,22 @@ const SignUp: React.FC = () => {
               />
 
               <Button
-                fontFamily="Roboto_700Bold"
-                fontSize={16}
-                w="100%"
-                mt="lg"
-                bg="purple500"
-                color="white"
                 onPress={handleSubmit(handleSignUp as any)}
+                backgroundColor="purple.500"
+                p={3}
               >
-                Criar conta
+                Cadastrar
               </Button>
-            </Div>
-
-            <Div mt={16}>
-              <Text
+              <Button
                 onPress={() => navigation.navigate('SignIn')}
-                fontFamily="Roboto_500Medium"
-                fontSize={16}
-                color="gray400"
+                variant="link"
+                colorScheme="purple"
+                p={3}
               >
-                Voltar para Login
-              </Text>
-            </Div>
-          </Div>
+                Voltar para login
+              </Button>
+            </VStack>
+          </VStack>
         </ScrollView>
       </KeyboardAvoidingView>
     </>

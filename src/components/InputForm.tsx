@@ -1,14 +1,15 @@
 import React from 'react';
 import { TextInputProps } from 'react-native';
-
-import { Input, Icon, Div, Text } from 'react-native-magnus';
+ 
 import { Control, Controller } from 'react-hook-form';
+import { Input, Icon, Stack, Text} from 'native-base';
+import { Feather } from '@expo/vector-icons'; 
 
 interface InputFormProps extends TextInputProps {
   control: Control;
   name: string;
   placeholder: string;
-  icon?: string;
+  icon?: keyof typeof Feather.glyphMap;
   error?: string;
   secure?: boolean;
 }
@@ -28,30 +29,27 @@ export default function InputForm({
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <Input
-            mt="lg"
             secureTextEntry={secure}
+            color="gray.300"
             placeholder={placeholder}
-            placeholderTextColor="gray300"
-            fontSize={16}
-            fontFamily="Roboto_500Medium"
-            p={10}
-            borderColor={error ? 'red400' : '#181b23'}
-            focusBorderColor="purple500"
+            _focus={{
+              borderColor: 'purple.400',
+            }}
+            p={3}
             borderWidth={2}
-            bg="#181b23"
-            color="white"
+            borderColor={error ? 'red.500' : 'gray.500'}
+            placeholderTextColor="gray.500"
+            fontSize={16}
             onChangeText={onChange}
             value={value}
             {...rest}
-            suffix={
-              icon && (
-                <Icon
-                  name={icon}
-                  fontSize={18}
-                  color="gray300"
-                  fontFamily="Feather"
-                />
-              )
+            InputRightElement={
+              <Icon
+                as={<Feather name={icon} />}
+                size={5}
+                mr="2"
+                color="gray.500"
+              />
             }
           />
         )}
@@ -59,9 +57,9 @@ export default function InputForm({
       />
 
       {error && (
-        <Div ml={8}>
-          <Text color="red400">{error}</Text>
-        </Div>
+        <Stack ml={2}>
+          <Text color="red.400">{error}</Text>
+        </Stack>
       )}
     </>
   );
