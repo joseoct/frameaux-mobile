@@ -11,8 +11,8 @@ export type RootStackParamList = {
   SignUp: undefined;
 
   Dashboard: undefined;
-  VerifyLevel: { technologyId: string; technologyName: string };
-  Topics: { technologyId: string; technologyName: string };
+  VerifyLevel: { technologyId: string; technologyName: string, technologyImage: string };
+  Topics: { technologyId: string; technologyName: string, technologyImage: string };
 };
 
 const Routes: React.FC = () => {

@@ -5,6 +5,7 @@ import { RootStackParamList } from './index';
 import Dashboard from '../screens/Dashboard';
 import VerifyLevel from '../screens/VerifyLevel';
 import Topics from '../screens/Topics';
+import Exercises from '../screens/Exercises';
 
 export type AppStackParamList = {
   Dashboard: undefined;
@@ -16,7 +17,7 @@ const AppRoutes: React.FC = () => (
   <App.Navigator
     screenOptions={{
       headerShown: false,
-      cardStyle: { backgroundColor: "#1F2029" },
+      cardStyle: { backgroundColor: "#18181B" },
     }}
   >
     <App.Screen name="Dashboard" component={Dashboard} />
