@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Flex, HStack, VStack, Text, Box, FlatList } from 'native-base';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useCallback } from 'react';
+import { Flex, HStack, VStack, Text, Box, FlatList, Button, Popover, Input } from 'native-base';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import { api } from '../services/api';
 import { Header } from '../components/Header';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useGetTopicsByTechnology } from '../services/hooks/topics/useGetTopicsByTechnology';
 import { useGetStudentTechnology } from '../services/hooks/studentTechnology/useGetStudentTechnology';
+import TopicPopover from '../components/TopicPopover';
 
 interface RouteParams {
   technologyId: string;
@@ -17,6 +18,10 @@ interface Topic {
   id: string;
   name: string;
   layer: number;
+  explanation: string;
+  UserTopic: {
+    current_difficulty: number;
+  }[]
 }
 
 export default function Topics() {
@@ -26,13 +31,26 @@ export default function Topics() {
 
   const { technologyId, technologyName, technologyImage } = routes.params as RouteParams;
 
-  const { data: topicsLayered } = useGetTopicsByTechnology(technologyId);
+  const { data: topicsLayered, refetch: refetchTopicsLayered } = useGetTopicsByTechnology(technologyId);
 
-  const { data: studentTechnology } = useGetStudentTechnology(technologyId);
+  const { data: studentTechnology, refetch: refetchStudentTechnology } = useGetStudentTechnology(technologyId);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetchStudentTechnology();
+      refetchTopicsLayered();
+    }, [])
+  )
 
   return (
     <>
-      <Header title="Tópicos de" subtitle={technologyName} technologyImage={technologyImage}/>
+      <Header
+        title="Tópicos de"
+        subtitle={technologyName}
+        technologyImage={technologyImage}
+      />
+
+      <Button onPress={() => navigation.navigate('Dashboard')}>Voltar</Button>
 
       <Flex flex={1}>
         <FlatList
@@ -47,31 +65,7 @@ export default function Topics() {
 
               <HStack space={4}>
                 {topicsLayered.map((topic: Topic) => (
-                  <TouchableOpacity
-                    disabled={
-                      studentTechnology &&
-                      Math.floor(topic.layer) > studentTechnology?.current_layer
-                    }
-                    key={topic.id}
-                  >
-                    <Box
-                      alignItems="center"
-                      justifyContent="center"
-                      w={100}
-                      h={100}
-                      bg={
-                        studentTechnology &&
-                        Math.floor(topic.layer) >
-                          studentTechnology?.current_layer
-                          ? 'gray.500'
-                          : 'gray.800'
-                      }
-                      rounded="full"
-                      key={topic.id}
-                    >
-                      <Text>{topic.name}</Text>
-                    </Box>
-                  </TouchableOpacity>
+                  <TopicPopover topic={topic} studentTechnology={studentTechnology} key={topic.id}/>
                 ))}
               </HStack>
             </VStack>

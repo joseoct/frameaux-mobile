@@ -23,6 +23,7 @@ const AppRoutes: React.FC = () => (
     <App.Screen name="Dashboard" component={Dashboard} />
     <App.Screen name="VerifyLevel" component={VerifyLevel} />
     <App.Screen name="Topics" component={Topics} />
+    <App.Screen name="Exercises" component={Exercises} />
 
   </App.Navigator>
 );

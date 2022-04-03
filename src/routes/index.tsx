@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Dashboard: undefined;
   VerifyLevel: { technologyId: string; technologyName: string, technologyImage: string };
   Topics: { technologyId: string; technologyName: string, technologyImage: string };
+  Exercises: { topicId: string, difficulty: number };
 };
 
 const Routes: React.FC = () => {

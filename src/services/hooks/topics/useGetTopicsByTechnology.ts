@@ -6,6 +6,9 @@ type Topic = {
   name: string;
   layer: number;
   explanation: string;
+  UserTopic: {
+    current_difficulty: number;
+  }[]
 }
 
 type Response = {
