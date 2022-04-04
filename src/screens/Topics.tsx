@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
-import { Flex, HStack, VStack, Text, Box, FlatList, Button, Popover, Input } from 'native-base';
+import { Flex, HStack, VStack, Text, FlatList, Button } from 'native-base';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import { api } from '../services/api';
-import { Header } from '../components/Header';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useGetTopicsByTechnology } from '../services/hooks/topics/useGetTopicsByTechnology';
 import { useGetStudentTechnology } from '../services/hooks/studentTechnology/useGetStudentTechnology';
-import TopicPopover from '../components/TopicPopover';
+
+import { Header } from '../components/Header';
+import { TopicPopover } from '../components/TopicPopover';
 
 interface RouteParams {
   technologyId: string;
@@ -58,14 +57,20 @@ export default function Topics() {
           keyExtractor={(_, index) => index.toString()}
           renderItem={({ item: topicsLayered, index }) => (
             <VStack p={4} alignItems="center">
-
-              {studentTechnology && studentTechnology.current_layer + 1 === index && (
-                <Text pb={4}>Complete os tópicos anteriores para liberar mais conteúdo !</Text>
-              )}
+              {studentTechnology &&
+                studentTechnology.current_layer + 1 === index && (
+                  <Text pb={4}>
+                    Complete os tópicos anteriores para liberar mais conteúdo !
+                  </Text>
+                )}
 
               <HStack space={4}>
                 {topicsLayered.map((topic: Topic) => (
-                  <TopicPopover topic={topic} studentTechnology={studentTechnology} key={topic.id}/>
+                  <TopicPopover
+                    topic={topic}
+                    studentTechnology={studentTechnology}
+                    key={topic.id}
+                  />
                 ))}
               </HStack>
             </VStack>

@@ -2,9 +2,8 @@ import React from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Toast from 'react-native-toast-message';
 
-import { VStack, HStack, Icon, Text } from 'native-base';
+import { VStack, HStack, Icon, Text, useToast } from 'native-base';
 import { Feather } from '@expo/vector-icons';
 
 import { Header } from '../components/Header';
@@ -21,6 +20,7 @@ export default function VerifyLevel() {
 
   const routes = useRoute();
   const navigation = useNavigation();
+  const toast = useToast();
 
   const { technologyId, technologyName, technologyImage } = routes.params as RouteParams;
   
@@ -30,16 +30,13 @@ export default function VerifyLevel() {
 
       navigation.navigate('Topics', { technologyId, technologyName, technologyImage });
     } catch (error) {
-      Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: 'Erro ao ingressar na tecnologia',
-        text2: 'Tente novamente',
-        visibilityTime: 3000,
-        autoHide: true,
+
+      toast.show({
+        title: 'Erro ao ingressar na tecnologia',
+        description: 'Tente novamente',
+        status: 'error',
       })
     }
-
   }
 
   return (

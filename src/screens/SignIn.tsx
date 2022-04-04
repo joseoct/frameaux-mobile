@@ -4,7 +4,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { Button, VStack, HStack, Text } from 'native-base';
+import { Button, VStack, HStack, Text, useToast } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -13,7 +13,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { useInterval } from 'usehooks-ts';
-import Toast from 'react-native-toast-message';
 
 import { useAuth } from '../hooks/auth';
 
@@ -75,19 +74,19 @@ const SignIn: React.FC = () => {
 
   const navigation = useNavigation();
 
+  const toast = useToast();
+
   const handleSignIn: SubmitHandler<SignInFormData> = async (data: SignInFormData) => {
     try {
 
       await signIn(data);
 
     } catch (error) {
-      Toast.show({
-        visibilityTime: 5000,
-        type: 'error',
-        position: 'top',
-        text1: 'Falha na autenticação',
-        text2: 'Verifique seus dados',
-      });
+      toast.show({
+        title: 'Falha na autenticação',
+        description: 'Verifique seu e-mail e senha',
+        status: 'error',
+      })
     }
   }
 

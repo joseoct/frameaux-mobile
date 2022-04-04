@@ -22,8 +22,6 @@ import { theme } from '././src/global/theme';
 
 import { NativeBaseProvider } from 'native-base';
 
-import Toast from 'react-native-toast-message';
-
 import {
   useFonts,
   Roboto_400Regular,
@@ -57,7 +55,6 @@ const App: React.FC = () => {
           <NativeBaseProvider theme={theme}>
             <AppProvider>
               <Routes />
-              <Toast />
             </AppProvider>
           </NativeBaseProvider>
       </QueryClientProvider>

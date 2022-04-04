@@ -6,13 +6,12 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { Button, VStack, HStack, Text } from 'native-base';
+import { Button, VStack, HStack, Text, useToast } from 'native-base';
 
 import * as yup from 'yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useInterval } from 'usehooks-ts';
-import Toast from 'react-native-toast-message';
 
 import Logo from '../components/Logo';
 import InputForm from '../components/InputForm';
@@ -77,6 +76,8 @@ const SignUp: React.FC = () => {
 
   const navigation = useNavigation();
 
+  const toast = useToast();
+
   const handleSignUp: SubmitHandler<SignUpFormData> = async (values: SignUpFormData) => {
     try {
 
@@ -88,23 +89,19 @@ const SignUp: React.FC = () => {
 
       await api.post('/students', data);
 
-      Toast.show({
-        visibilityTime: 5000,
-        type: 'success',
-        position: 'top',
-        text1: 'Cadastro feito com sucesso',
-        text2: 'Você ja pode logar',
+      toast.show({
+        title: 'Conta feita com sucesso',
+        status: 'success',
+        description: 'Você ja pode logar !', 
       });
 
       navigation.goBack();
 
     } catch (error) {
-      Toast.show({
-        visibilityTime: 5000,
-        type: 'error',
-        position: 'top',
-        text1: 'Falha ao cadastrar',
-        text2: 'Verifique se este e-mail já está cadastrado',
+      toast.show({
+        title: 'Falha ao cadastrar',
+        status: 'success',
+        description: 'Verifique se este e-mail já está cadastrado', 
       });
     }
   }
