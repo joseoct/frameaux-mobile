@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { LogBox } from 'react-native';
 import _ from 'lodash';
 
+LogBox.ignoreLogs(['NativeBase:']);
 const _console = _.clone(console);
 console.warn = message => {
 if (message.indexOf('Setting a timer') <= -1) {
@@ -12,7 +13,7 @@ if (message.indexOf('Setting a timer') <= -1) {
    }
 };
 
-import { View, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import AppLoading from 'expo-app-loading';
 
 import { QueryClientProvider } from 'react-query';
