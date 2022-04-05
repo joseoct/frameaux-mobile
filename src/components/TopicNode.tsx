@@ -1,14 +1,16 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 
-import { Button, Icon, Text, VStack, HStack, Divider, useToast } from 'native-base';
+import { Button, Box,Icon, Text, VStack, HStack, Divider, useToast, View } from 'native-base';
 import { Popover, usePopover } from 'react-native-modal-popover';
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
 import { api } from '../services/api';
 
-interface TopicPopoverProps {
+interface TopicNodeProps {
   topic: {
     id: string;
     name: string;
@@ -22,10 +24,10 @@ interface TopicPopoverProps {
   };
 }
 
-export function TopicPopover({
+export function TopicNode({
   topic,
   studentTechnology,
-}: TopicPopoverProps) {
+}: TopicNodeProps) {
   const navigator = useNavigation();
   const toast = useToast();
 
@@ -49,6 +51,7 @@ export function TopicPopover({
       difficulty: topic.UserTopic[0]?.current_difficulty,
     });
   }
+  
   const {
     openPopover,
     closePopover,
@@ -59,27 +62,62 @@ export function TopicPopover({
 
   return (
     <>
-      <Button
-        onPress={() => openPopover()}
-        ref={touchableRef}
-        w={100}
-        h={100}
-        colorScheme="gray"
-        bg={
-          studentTechnology &&
-          Math.floor(topic.layer) > studentTechnology?.current_layer
-            ? 'gray.500'
-            : 'gray.800'
-        }
+      <TouchableOpacity
         disabled={
           studentTechnology &&
           Math.floor(topic.layer) > studentTechnology?.current_layer
         }
-        rounded="full"
-        variant="solid"
+        ref={touchableRef}
+        onPress={() => openPopover()}
       >
-        {topic.name}
-      </Button>
+        <AnimatedCircularProgress
+          size={120}
+          width={8}
+          fill={
+            topic.UserTopic[0]?.current_difficulty
+              ? ((topic.UserTopic[0].current_difficulty - 1) / 3) * 100
+              : 0
+          }
+          rotation={135}
+          tintColor="#3fb134"
+          backgroundColor="#E5E5E5"
+        >
+          {() => (
+            <Box
+              alignItems="center"
+              justifyContent="center"
+              bg={
+                topic.UserTopic[0]?.current_difficulty
+                  ? `level.${topic.UserTopic[0]?.current_difficulty}`
+                  : 'level.0'
+              }
+              width={85}
+              height={85}
+              rounded="full"
+            >
+              <Text color="dark.100" fontWeight="700">
+                {topic.name}
+              </Text>
+            </Box>
+          )}
+        </AnimatedCircularProgress>
+
+        {topic.UserTopic[0]?.current_difficulty > 1 && (
+          <View position="absolute" left={85} top={68}>
+            <FontAwesome5 name="crown" size={32} color="#ffcc00" />
+            <Text
+              textAlign="center"
+              color="dark.200"
+              fontWeight="bold"
+              position="absolute"
+              right={4}
+              top={2}
+            >
+              {topic.UserTopic[0].current_difficulty - 1}
+            </Text>
+          </View>
+        )}
+      </TouchableOpacity>
 
       <Popover
         placement="top"

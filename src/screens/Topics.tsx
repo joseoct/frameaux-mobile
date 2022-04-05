@@ -5,7 +5,7 @@ import { useGetTopicsByTechnology } from '../services/hooks/topics/useGetTopicsB
 import { useGetStudentTechnology } from '../services/hooks/studentTechnology/useGetStudentTechnology';
 
 import { Header } from '../components/Header';
-import { TopicPopover } from '../components/TopicPopover';
+import { TopicNode } from '../components/TopicNode';
 
 interface RouteParams {
   technologyId: string;
@@ -66,7 +66,7 @@ export default function Topics() {
 
               <HStack space={4}>
                 {topicsLayered.map((topic: Topic) => (
-                  <TopicPopover
+                  <TopicNode
                     topic={topic}
                     studentTechnology={studentTechnology}
                     key={topic.id}

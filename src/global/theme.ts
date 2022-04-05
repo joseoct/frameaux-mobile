@@ -1,6 +1,17 @@
 import { extendTheme } from 'native-base';
 
 export const theme = extendTheme({
+
+  colors: {
+    level: {
+      0: '#777777',
+      1: '#66cc00',
+      2: '#3399ff',
+      3: '#ff3333',
+      4: '#ffec00',
+    }
+  },
+
   fontConfig: {
     Roboto: {
       400: {
