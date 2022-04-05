@@ -8,8 +8,8 @@ import { Feather } from '@expo/vector-icons';
 
 interface RouteParams {
   topicId: string;
-  difficulty: number; }
-
+  difficulty: number; 
+}
 
 export default function Exercises() {
   const routes = useRoute();
@@ -85,7 +85,6 @@ export default function Exercises() {
   return (
     <>
       <View flex={1}>
-
         <HStack alignItems="center" p={4} pt={8}>
           <Icon
             onPress={() => navigation.goBack()}
@@ -111,6 +110,7 @@ export default function Exercises() {
           <Exercise
             exercise={currentExercise}
             onVerifyAnswer={handleVerifyAnswer}
+            handleNextExercise={handleNextExercise}
           />
         )}
       </View>
@@ -126,24 +126,26 @@ export default function Exercises() {
         ]}
       >
         {isCorrect ? (
-          <VStack
-            justifyContent="space-between"
-            p={4}
-            h="128px"
-            bg="gray.900"
-          >
+          <VStack justifyContent="space-between" p={4} h="128px" bg="gray.900">
             <Text fontSize={16} fontWeight="bold" color="green.300">
               É isso ai !
             </Text>
-            <Button onPress={handleNextExercise} colorScheme="green">Continuar</Button>
+            <Button onPress={handleNextExercise} colorScheme="green">
+              Continuar
+            </Button>
           </VStack>
         ) : (
           <VStack justifyContent="space-between" p={4} h="160px" bg="gray.900">
             <Text color="red.500">Incorreto.</Text>
             <Text fontSize={16} fontWeight="bold">
-              Resposta correta: {currentExercise?.correct_answer}
+              Resposta correta:{' '}
+              {currentExercise.correct_answer instanceof Array
+                ? currentExercise?.correct_answer.join(' ')
+                : currentExercise?.correct_answer}
             </Text>
-            <Button onPress={handleNextExercise} colorScheme="red">Vamos lá !</Button>
+            <Button onPress={handleNextExercise} colorScheme="red">
+              Vamos lá !
+            </Button>
           </VStack>
         )}
       </Animated.View>

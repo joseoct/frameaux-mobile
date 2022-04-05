@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Stack, TextArea, Text, VStack, HStack, useContrastText } from 'native-base';
 import { IAlternativeExercise } from '../Exercise/index';
 import { Animated } from 'react-native';
@@ -14,6 +14,10 @@ export function AlternativeExercise({ exercise, onVerifyAnswer }: AlternativeExe
 
   const [cancelButtons, setCancelButtons] = React.useState(false);
 
+  useEffect(() => {
+    setUserAnswer('');
+  }, [exercise]);
+
   function handleUserAnswer(userAnswer: string) {
     setUserAnswer(userAnswer);
   }
@@ -24,8 +28,6 @@ export function AlternativeExercise({ exercise, onVerifyAnswer }: AlternativeExe
     } else {
       onVerifyAnswer(false);
     }
-    
-    setUserAnswer('');
   }
 
   return (
