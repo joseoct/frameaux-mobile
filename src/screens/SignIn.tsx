@@ -134,17 +134,16 @@ const SignIn: React.FC = () => {
               />
 
               <Button
+                _text={{
+                  color: 'gray.300',
+                }}
                 onPress={handleSubmit(handleSignIn as any)}
-                backgroundColor="purple.500"
-                p={3}
               >
                 Entrar
               </Button>
               <Button
                 onPress={() => navigation.navigate('SignUp')}
                 variant="link"
-                colorScheme="purple"
-                p={3}
               >
                 Criar uma conta
               </Button>

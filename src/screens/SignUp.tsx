@@ -165,9 +165,10 @@ const SignUp: React.FC = () => {
               />
 
               <Button
+                _text={{
+                  color: 'gray.300',
+                }}
                 onPress={handleSubmit(handleSignUp as any)}
-                backgroundColor="purple.500"
-                p={3}
               >
                 Cadastrar
               </Button>
