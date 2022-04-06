@@ -23,6 +23,8 @@ export default function Exercises() {
 
   const [isCorrect, setIsCorrect] = useState<boolean>();
 
+  const [attention, setAttention] = useState<boolean>(false);
+
   const animated = React.useRef(new Animated.Value(200)).current;
   const duration = 500;
 
@@ -39,7 +41,7 @@ export default function Exercises() {
     loadExercises();
   }, [])
 
-  function handleNextExercise () {
+  async function handleNextExercise () {
 
     const currentIndex = exercises.findIndex(exercise => exercise.id === currentExercise.id);
 
@@ -47,11 +49,16 @@ export default function Exercises() {
 
       const nextIndex = currentIndex + 1;
 
-      if (nextIndex > exercises.length - 1) {
-        // chama post para aumentar a dificultdade do topico
+      if (nextIndex === exercises.length) {
+        if (difficulty < 4) {
+          await api.patch(`/students-topics/${topicId}`, {
+            attention,
+          });
 
-        // navega para uma página de parabens
-        navigation.navigate("Dashboard");
+          setAttention(false);
+        }
+
+        navigation.goBack();
       }
 
       setCurrentExercise(exercises[nextIndex]);
@@ -59,6 +66,8 @@ export default function Exercises() {
       const exercisesFiltered = exercises.filter(exercise => exercise.id !== currentExercise.id);
 
       const newExercises = [...exercisesFiltered, currentExercise];
+
+      setAttention(true);
 
       setExercises(newExercises);
 
@@ -106,12 +115,14 @@ export default function Exercises() {
           </Box>
         </HStack>
 
-        {currentExercise && (
+        {currentExercise ? (
           <Exercise
             exercise={currentExercise}
             onVerifyAnswer={handleVerifyAnswer}
             handleNextExercise={handleNextExercise}
           />
+        ) : (
+          <Text>Não há exercícios deste level</Text>
         )}
       </View>
 
@@ -139,7 +150,7 @@ export default function Exercises() {
             <Text color="red.500">Incorreto.</Text>
             <Text fontSize={16} fontWeight="bold">
               Resposta correta:{' '}
-              {currentExercise.correct_answer instanceof Array
+              {currentExercise?.correct_answer instanceof Array
                 ? currentExercise?.correct_answer.join(' ')
                 : currentExercise?.correct_answer}
             </Text>

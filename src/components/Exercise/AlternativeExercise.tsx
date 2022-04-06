@@ -43,30 +43,42 @@ export function AlternativeExercise({ exercise, onVerifyAnswer }: AlternativeExe
           isDisabled
         />
 
-        <Button.Group
-          colorScheme="purple"
-          w="100%"
-          direction="column"
-        >
+        <Button.Group w="100%" direction="column">
           <Button
+            _text={{
+              color:
+                userAnswer === exercise.answer[0] ? 'gray.300' : 'purple.500',
+            }}
             variant={userAnswer === exercise.answer[0] ? 'solid' : 'outline'}
             onPress={() => handleUserAnswer(exercise.answer[0])}
           >
             {exercise.answer[0]}
           </Button>
           <Button
+            _text={{
+              color:
+                userAnswer === exercise.answer[1] ? 'gray.300' : 'purple.500',
+            }}
             variant={userAnswer === exercise.answer[1] ? 'solid' : 'outline'}
             onPress={() => handleUserAnswer(exercise.answer[1])}
           >
             {exercise.answer[1]}
           </Button>
           <Button
+            _text={{
+              color:
+                userAnswer === exercise.answer[2] ? 'gray.300' : 'purple.500',
+            }}
             variant={userAnswer === exercise.answer[2] ? 'solid' : 'outline'}
             onPress={() => handleUserAnswer(exercise.answer[2])}
           >
             {exercise.answer[2]}
           </Button>
           <Button
+            _text={{
+              color:
+                userAnswer === exercise.answer[3] ? 'gray.300' : 'purple.500',
+            }}
             variant={userAnswer === exercise.answer[3] ? 'solid' : 'outline'}
             onPress={() => handleUserAnswer(exercise.answer[3])}
           >

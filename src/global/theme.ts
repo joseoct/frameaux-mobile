@@ -46,7 +46,10 @@ export const theme = extendTheme({
     },
     Button: {
       defaultProps: {
+        padding: '16px',
+        colorScheme: 'purple',
         _text: {
+          // color: "gray.300",
           fontFamily: 'heading',
           fontSize: 16,
         }

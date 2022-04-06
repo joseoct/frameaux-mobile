@@ -69,12 +69,13 @@ export function SequencyExercise({ exercise, onVerifyAnswer, handleNextExercise 
 
         <Button.Group
           justifyContent="center"
-          colorScheme="purple"
           w="100%"
           direction="row"
         >
           {answers.map((answer, index) => (
-            <Button onPress={() => handleAddToSequency(answer)} key={index}>
+            <Button _text={{
+              color: "gray.300"
+            }} onPress={() => handleAddToSequency(answer)} key={index}>
               {answer}
             </Button>
           ))}

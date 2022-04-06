@@ -40,7 +40,7 @@ export default function Dashboard() {
       {userTechnologies && userTechnologies.length > 0 && (
         <VStack mt={8}>
           <Flex alignItems="center">
-            <Heading fontSize="xl">Continue aprendendo !</Heading>
+            <Heading fontSize="xl">Continue praticando !</Heading>
           </Flex>
 
           <FlatList
@@ -87,7 +87,7 @@ export default function Dashboard() {
 
       <VStack mt={8}>
         <Flex alignItems="center">
-          <Heading fontSize="xl">Tecnologias para você aprender !</Heading>
+          <Heading fontSize="xl">Tecnologias para você praticar !</Heading>
         </Flex>
 
         <FlatList

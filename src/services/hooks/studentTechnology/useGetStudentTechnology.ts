@@ -8,8 +8,14 @@ type UserTechnology = {
   current_layer: number;
 }
 
-async function getStudentTechnology(technologyId: string): Promise<UserTechnology> {
-  const { data } = await api.get<UserTechnology>(`/students-technologies/${technologyId}`);
+type Response = {
+  userTechnology: UserTechnology;
+  userCrowns: number;
+  totalCrowns: number;
+}
+
+async function getStudentTechnology(technologyId: string): Promise<Response> {
+  const { data } = await api.get<Response>(`/students-technologies/${technologyId}`);
 
   return data;
 }

@@ -15,6 +15,7 @@ interface TopicNodeProps {
     id: string;
     name: string;
     layer: number;
+    explanation: string;
     UserTopic: {
       current_difficulty: number;
     }[];
@@ -79,7 +80,9 @@ export function TopicNode({
               : 0
           }
           rotation={135}
-          tintColor="#3fb134"
+          tintColor={
+            topic.UserTopic[0]?.current_difficulty === 4 ? '#947e03' : '#3fb134'
+          }
           backgroundColor="#E5E5E5"
         >
           {() => (
@@ -167,21 +170,30 @@ export function TopicNode({
             />
           </HStack>
 
-          <Button colorScheme="blue" variant="link">
+          <Button
+            onPress={() =>
+              navigator.navigate('Explanation', {
+                topic,
+              })
+            }
+            colorScheme="blue"
+            variant="link"
+          >
             Explicação
           </Button>
           <Button
+            _text={{
+              color: 'gray.300',
+            }}
             onPress={
               topic.UserTopic[0]?.current_difficulty > 0
                 ? handleGoToExercises
                 : handleCreateStudentTopic
             }
-            _text={{
-              color: 'gray.300',
-            }}
-            colorScheme="purple"
           >
-            {topic.UserTopic[0]?.current_difficulty
+            {topic.UserTopic[0]?.current_difficulty === 4
+              ? 'Revisar tópico'
+              : topic.UserTopic[0]?.current_difficulty
               ? 'Continuar praticando'
               : 'Começar tópico !'}
           </Button>

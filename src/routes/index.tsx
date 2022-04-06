@@ -1,6 +1,8 @@
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
+import { Topic } from '../screens/Topics';
+
 import AppRoutes from './app.routes';
 import AuthRoutes from './auth.routes';
 
@@ -14,6 +16,7 @@ export type RootStackParamList = {
   VerifyLevel: { technologyId: string; technologyName: string, technologyImage: string };
   Topics: { technologyId: string; technologyName: string, technologyImage: string };
   Exercises: { topicId: string, difficulty: number };
+  Explanation: { topic: Topic };
 };
 
 const Routes: React.FC = () => {

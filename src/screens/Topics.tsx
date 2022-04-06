@@ -1,11 +1,15 @@
 import React, { useCallback } from 'react';
-import { Flex, HStack, VStack, Text, FlatList, Button } from 'native-base';
+
+import { Flex, HStack, VStack, Text, FlatList, Icon, Modal, Button } from 'native-base';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-import { useGetTopicsByTechnology } from '../services/hooks/topics/useGetTopicsByTechnology';
-import { useGetStudentTechnology } from '../services/hooks/studentTechnology/useGetStudentTechnology';
+import { Feather } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 import { Header } from '../components/Header';
 import { TopicNode } from '../components/TopicNode';
+
+import { useGetTopicsByTechnology } from '../services/hooks/topics/useGetTopicsByTechnology';
+import { useGetStudentTechnology } from '../services/hooks/studentTechnology/useGetStudentTechnology';
 
 interface RouteParams {
   technologyId: string;
@@ -13,7 +17,7 @@ interface RouteParams {
   technologyImage: string;
 }
 
-interface Topic {
+export interface Topic {
   id: string;
   name: string;
   layer: number;
@@ -32,7 +36,7 @@ export default function Topics() {
 
   const { data: topicsLayered, refetch: refetchTopicsLayered } = useGetTopicsByTechnology(technologyId);
 
-  const { data: studentTechnology, refetch: refetchStudentTechnology } = useGetStudentTechnology(technologyId);
+  const { data: studentTechnologyInfo, refetch: refetchStudentTechnology } = useGetStudentTechnology(technologyId);
 
   useFocusEffect(
     useCallback(() => {
@@ -49,16 +53,27 @@ export default function Topics() {
         technologyImage={technologyImage}
       />
 
-      <Button onPress={() => navigation.navigate('Dashboard')}>Voltar</Button>
+      <HStack bg="gray.800" p={4} alignItems="center" justifyContent="space-between">
+        <Icon
+          onPress={() => navigation.goBack()}
+          color="gray.500"
+          as={<Feather name="x" />}
+        />
+
+        <HStack space={2} alignItems="center">
+          <Text color="gray.400">{studentTechnologyInfo?.userCrowns} / {studentTechnologyInfo?.totalCrowns}</Text>
+          <FontAwesome5 name="crown" size={24} color="#ffcc00" />
+        </HStack>
+      </HStack>
 
       <Flex flex={1}>
         <FlatList
           data={topicsLayered?.layerTopics}
           keyExtractor={(_, index) => index.toString()}
           renderItem={({ item: topicsLayered, index }) => (
-            <VStack p={4} alignItems="center">
-              {studentTechnology &&
-                studentTechnology.current_layer + 1 === index && (
+            <VStack alignItems="center" p={2}>
+              {studentTechnologyInfo?.userTechnology &&
+                studentTechnologyInfo?.userTechnology.current_layer + 1 === index && (
                   <Text pb={4}>
                     Complete os tópicos anteriores para liberar mais conteúdo !
                   </Text>
@@ -68,7 +83,7 @@ export default function Topics() {
                 {topicsLayered.map((topic: Topic) => (
                   <TopicNode
                     topic={topic}
-                    studentTechnology={studentTechnology}
+                    studentTechnology={studentTechnologyInfo?.userTechnology}
                     key={topic.id}
                   />
                 ))}
