@@ -55,7 +55,7 @@ export default function Topics() {
 
       <HStack bg="gray.800" p={4} alignItems="center" justifyContent="space-between">
         <Icon
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate("Dashboard")}
           color="gray.500"
           as={<Feather name="x" />}
         />
@@ -74,8 +74,8 @@ export default function Topics() {
             <VStack alignItems="center" p={2}>
               {studentTechnologyInfo?.userTechnology &&
                 studentTechnologyInfo?.userTechnology.current_layer + 1 === index && (
-                  <Text pb={4}>
-                    Complete os tópicos anteriores para liberar mais conteúdo !
+                  <Text fontSize={12} pb={4}>
+                    Complete o último tópico disponível para liberar mais conteúdo !
                   </Text>
                 )}
 

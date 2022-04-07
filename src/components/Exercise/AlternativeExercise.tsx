@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button, Stack, TextArea, Text, VStack, HStack, useContrastText } from 'native-base';
+import { Button, Stack, TextArea, Text, VStack, HStack, useContrastText, Box } from 'native-base';
 import { IAlternativeExercise } from '../Exercise/index';
 import { Animated } from 'react-native';
 

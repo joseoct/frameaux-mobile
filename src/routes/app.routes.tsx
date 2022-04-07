@@ -7,6 +7,7 @@ import VerifyLevel from '../screens/VerifyLevel';
 import Topics from '../screens/Topics';
 import Exercises from '../screens/Exercises';
 import Explanation from '../screens/Explanation';
+import TestResult from '../screens/TestResult';
 
 export type AppStackParamList = {
   Dashboard: undefined;
@@ -26,6 +27,7 @@ const AppRoutes: React.FC = () => (
     <App.Screen name="Topics" component={Topics} />
     <App.Screen name="Exercises" component={Exercises} />
     <App.Screen name="Explanation" component={Explanation} />
+    <App.Screen name="TestResult" component={TestResult} />
 
   </App.Navigator>
 );

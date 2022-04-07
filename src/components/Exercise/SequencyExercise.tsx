@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Stack, TextArea, VStack } from 'native-base';
 
 import { shuffleArray } from '../../utils/arrayUtils';
@@ -10,10 +10,9 @@ import Lines from '../Lines';
 interface SequencyExerciseProps {
   exercise: ISequencyExercise;
   onVerifyAnswer: (correct: boolean) => void;
-  handleNextExercise: () => void;
 }
 
-export function SequencyExercise({ exercise, onVerifyAnswer, handleNextExercise }: SequencyExerciseProps) {
+export function SequencyExercise({ exercise, onVerifyAnswer }: SequencyExerciseProps) {
 
   const [userAnswer, setUserAnswer] = useState<string[]>([]);
 

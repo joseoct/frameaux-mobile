@@ -39,6 +39,21 @@ export default function VerifyLevel() {
     }
   }
 
+  async function handleCreateTest() {
+    try {
+      await api.post(`/students-technologies/${technologyId}`),
+
+      navigation.navigate('Exercises', { technologyId });
+    } catch (error) {
+
+      toast.show({
+        title: 'Erro ao ingressar na tecnologia',
+        description: 'Tente novamente',
+        status: 'error',
+      })
+    }
+  }
+
   return (
     <>
       <Header title="Verificar nível em:" subtitle={technologyName} technologyImage={technologyImage}/>
@@ -60,7 +75,7 @@ export default function VerifyLevel() {
           </HStack>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => console.log('oi')}>
+        <TouchableOpacity onPress={handleCreateTest}>
           <HStack alignItems="center" maxW={320} borderWidth={1} borderColor="gray.700" py={4}>
             <Icon m={4} color="green.300" as={<Feather name="book-open"/>}/>
 

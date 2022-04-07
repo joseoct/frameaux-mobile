@@ -137,35 +137,34 @@ export function TopicNode({
 
           <Divider bg="purple.400" />
 
-          <HStack>
-            <Icon
+          <HStack space={2}>
+            <FontAwesome5
+              name="crown"
+              size={24}
               color={
                 topic.UserTopic[0]?.current_difficulty > 1
-                  ? 'yellow.500'
-                  : 'dark.100'
-              }
-              as={
-                <MaterialCommunityIcons name="crown"></MaterialCommunityIcons>
+                  ? '#ffcc00'
+                  : '#c9c9c9'
               }
             />
-            <Icon
+
+            <FontAwesome5
+              name="crown"
+              size={24}
               color={
                 topic.UserTopic[0]?.current_difficulty > 2
-                  ? 'yellow.500'
-                  : 'dark.100'
-              }
-              as={
-                <MaterialCommunityIcons name="crown"></MaterialCommunityIcons>
+                  ? '#ffcc00'
+                  : '#c9c9c9'
               }
             />
-            <Icon
+
+            <FontAwesome5
+              name="crown"
+              size={24}
               color={
                 topic.UserTopic[0]?.current_difficulty > 3
-                  ? 'yellow.500'
-                  : 'dark.100'
-              }
-              as={
-                <MaterialCommunityIcons name="crown"></MaterialCommunityIcons>
+                  ? '#ffcc00'
+                  : '#c9c9c9'
               }
             />
           </HStack>

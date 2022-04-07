@@ -8,6 +8,7 @@ export interface IExercise {
   id: string;
   type: string;
   question: string;
+  layer?: number;
 }
 
 export interface IAlternativeExercise extends IExercise {
@@ -22,10 +23,9 @@ export interface ISequencyExercise extends IExercise {
 interface ExerciseProps {
   exercise: IAlternativeExercise | ISequencyExercise;
   onVerifyAnswer: (correct: boolean) => void;
-  handleNextExercise: () => void;
 }
 
-export function Exercise({ exercise, onVerifyAnswer, handleNextExercise }: ExerciseProps ) {
+export function Exercise({ exercise, onVerifyAnswer }: ExerciseProps ) {
   switch (exercise.type) {
     case 'alternative':
       return (
@@ -39,7 +39,6 @@ export function Exercise({ exercise, onVerifyAnswer, handleNextExercise }: Exerc
         <SequencyExercise
           exercise={exercise as ISequencyExercise}
           onVerifyAnswer={onVerifyAnswer}
-          handleNextExercise={handleNextExercise}
         />
       );
     default:
