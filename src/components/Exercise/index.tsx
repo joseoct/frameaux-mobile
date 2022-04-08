@@ -9,6 +9,7 @@ export interface IExercise {
   type: string;
   question: string;
   layer?: number;
+  topic_id?: string;
 }
 
 export interface IAlternativeExercise extends IExercise {

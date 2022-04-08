@@ -30,7 +30,7 @@ export default function Exercises() {
   const [test, setTest] = useState<boolean>(false);
 
   const animated = React.useRef(new Animated.Value(200)).current;
-  const duration = 500;
+  const duration = 400;
 
   useEffect(() => {
 
@@ -38,7 +38,6 @@ export default function Exercises() {
       await api.get<(IAlternativeExercise | ISequencyExercise)[]>(
         `/technologies/${technologyId}/test`,
       ).then(response => {
-          console.log(response.data);
           setExercises(response.data);
           setCurrentExercise(response.data[0]);
           setTest(true);
@@ -80,11 +79,32 @@ export default function Exercises() {
 
     const currentIndex = exercises.findIndex(exercise => exercise.id === currentExercise.id);
 
+    const nextIndex = currentIndex + 1;
+
     if (isCorrect) {
 
-      const nextIndex = currentIndex + 1;
+      // Exercício de outro tópico
+      if (currentExercise.topic_id) {
+        await api.patch(`/students-topics/${currentExercise.topic_id}`, {
+          attention: 0,
+        });
+
+        if (nextIndex === exercises.length) {
+          await api.patch(`/students-topics/${topicId}`, {
+            current_difficulty: 'increase',
+            attention: attention ? 1 : 0,
+          });
+
+          setAttention(false);
+          navigation.goBack();
+        }
+      }
 
       if (nextIndex === exercises.length) {
+        // Revisão 
+        if (difficulty === 4) {
+          navigation.goBack();
+        }
 
         if (test) {
           await api.patch(`/students-technologies/${technologyId}/${currentExercise.layer}`);
@@ -98,7 +118,8 @@ export default function Exercises() {
 
         if (difficulty && difficulty < 4) {
           await api.patch(`/students-topics/${topicId}`, {
-            attention,
+            current_difficulty: 'increase',
+            attention: attention ? 1 : 0,
           });
 
           setAttention(false);
@@ -108,6 +129,33 @@ export default function Exercises() {
 
       setCurrentExercise(exercises[nextIndex]);
     } else {
+
+      // Exercício de outro tópico
+      if (currentExercise.topic_id) {
+        await api.patch(`/students-topics/${currentExercise.topic_id}`, {
+          current_difficulty: 'decrease',
+          attention: 0,
+        });
+
+        if (nextIndex === exercises.length) {
+          await api.patch(`/students-topics/${topicId}`, {
+            current_difficulty: 'increase',
+            attention: attention ? 1 : 0,
+          });
+
+          setAttention(false);
+          navigation.goBack();
+        }
+
+        setCurrentExercise(exercises[nextIndex]);
+
+        Animated.timing(animated, {
+          toValue: 200,
+          duration: duration,
+          useNativeDriver: true,
+        }).start();
+        return;
+      }
 
       if(test) {
         await api.patch(`/students-technologies/${technologyId}/${currentExercise.layer}`);
@@ -174,8 +222,15 @@ export default function Exercises() {
         {test && (
           <VStack p={2}>
             <Text>
-              Teste de nivelamento: o teste para quando você acertar todas as questões ou errar alguma !
+              Teste de nivelamento: o teste para quando você acertar todas as
+              questões ou errar alguma !
             </Text>
+          </VStack>
+        )}
+
+        {currentExercise?.topic_id && (
+          <VStack alignItems="center">
+            <Text fontSize={24}>Você se lembra ?</Text>
           </VStack>
         )}
 
@@ -210,7 +265,11 @@ export default function Exercises() {
           </VStack>
         ) : (
           <VStack justifyContent="space-between" p={4} h="160px" bg="gray.900">
-            <Text color="red.500">Incorreto.</Text>
+            <Text color="red.500">
+              Incorreto.{' '}
+              {currentExercise?.topic_id &&
+                'Você regrediu em um dos tópicos anteriores por errar esta questão... '}
+            </Text>
             <Text fontSize={16} fontWeight="bold">
               Resposta correta:{' '}
               {currentExercise?.correct_answer instanceof Array

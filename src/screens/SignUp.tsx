@@ -100,7 +100,7 @@ const SignUp: React.FC = () => {
     } catch (error) {
       toast.show({
         title: 'Falha ao cadastrar',
-        status: 'success',
+        status: 'error',
         description: 'Verifique se este e-mail já está cadastrado', 
       });
     }
