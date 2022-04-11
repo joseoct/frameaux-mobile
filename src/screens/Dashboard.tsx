@@ -62,7 +62,8 @@ export default function Dashboard() {
                 <Flex
                   rounded={4}
                   alignItems="center"
-                  p={8}
+                  py={8}
+                  width={148}
                   mr={2}
                   bg="gray.800"
                   key={technology.id}

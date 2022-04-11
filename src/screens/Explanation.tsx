@@ -48,7 +48,7 @@ export default function ExerciseExplanation() {
         subtitle={topic.name}
       />
 
-      <HStack bg="gray.800" p={2} alignItems="center" justifyContent="space-between">
+      <HStack bg="gray.800" p={2} py={2} alignItems="center" justifyContent="space-between">
         <Icon
           onPress={() => navigator.goBack()}
           color="gray.500"

@@ -13,7 +13,11 @@
     "preview3": {
       "developmentClient": true
     },
-    "production": {}
+    "production": {
+      "env": {
+        "API_URL": "https://api.frameaux.ga"
+      }
+    }
   },
   "cli": {
     "version": ">= 0.49.0"
