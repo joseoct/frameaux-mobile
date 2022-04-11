@@ -48,6 +48,7 @@ export function AlternativeExercise({ exercise, onVerifyAnswer }: AlternativeExe
             <Button
               key={item}
               _text={{
+                textAlign: 'center',
                 color:
                   userAnswer === item ? 'gray.300' : 'purple.500',
               }}

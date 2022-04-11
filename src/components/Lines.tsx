@@ -9,24 +9,28 @@ interface LinesProps {
 export default function Lines({ userAnswer, handleOnSubToSequency }: LinesProps) {
   return (
     <VStack my={4}>
-      <Divider bg="gray.600"/>
-      <HStack mt={1} position="absolute">
-        <Button.Group
-          colorScheme="purple"
-          w="100%"
-          direction="row"
-        >
-          {userAnswer.map((answer, index) => (
-            <Button _text={{
+
+      <Divider bg="gray.600" />
+
+      <HStack mt={1} position="absolute" flexWrap="wrap">
+        {userAnswer.map((answer, index) => (
+          <Button
+            m={0.5}
+            _text={{
               color: 'gray.300',
-            }} onPress={() => handleOnSubToSequency(answer)} key={index}>
-              {answer}
-            </Button>
-          ))}
-        </Button.Group>
+            }}
+            onPress={() => handleOnSubToSequency(answer)}
+            key={index}
+          >
+            {answer}
+          </Button>
+        ))}
       </HStack>
-      <Divider bg="gray.600" mt={16}/>
-      <Divider bg="gray.600" mt={16}/>
+
+      <Divider bg="gray.600" mt={16} />
+
+      <Divider bg="gray.600" mt={16} />
+
     </VStack>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Stack, TextArea, VStack } from 'native-base';
+import { Button, HStack, Stack, Text, TextArea, VStack } from 'native-base';
 
 import { shuffleArray } from '../../utils/arrayUtils';
 
@@ -64,21 +64,25 @@ export function SequencyExercise({ exercise, onVerifyAnswer }: SequencyExerciseP
           isDisabled
         />
 
-        <Lines handleOnSubToSequency={handleSubToSequency} userAnswer={userAnswer} />
+        <Lines
+          handleOnSubToSequency={handleSubToSequency}
+          userAnswer={userAnswer}
+        />
 
-        <Button.Group
-          justifyContent="center"
-          w="100%"
-          direction="row"
-        >
+        <HStack flexWrap="wrap">
           {answers.map((answer, index) => (
-            <Button _text={{
-              color: "gray.300"
-            }} onPress={() => handleAddToSequency(answer)} key={index}>
+            <Button
+              m={0.5}
+              _text={{
+                color: 'gray.300',
+              }}
+              onPress={() => handleAddToSequency(answer)}
+              key={index}
+            >
               {answer}
             </Button>
           ))}
-        </Button.Group>
+        </HStack>
       </VStack>
 
       <Stack m={2}>
