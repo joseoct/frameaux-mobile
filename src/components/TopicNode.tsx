@@ -88,17 +88,16 @@ export function TopicNode({
           {() => (
             <Box
               alignItems="center"
+              boxSize={95}
               justifyContent="center"
+              rounded="full"
               bg={
                 topic.UserTopic[0]?.current_difficulty
                   ? `level.${topic.UserTopic[0]?.current_difficulty}`
                   : 'level.0'
               }
-              width={85}
-              height={85}
-              rounded="full"
             >
-              <Text color="dark.100" fontWeight="700">
+              <Text textAlign="center" color="dark.50" fontWeight="700">
                 {topic.name}
               </Text>
             </Box>
