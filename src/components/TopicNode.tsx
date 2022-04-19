@@ -1,10 +1,10 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 
-import { Button, Box,Icon, Text, VStack, HStack, Divider, useToast, View } from 'native-base';
+import { Button, Box, Text, VStack, HStack, Divider, useToast, View } from 'native-base';
 import { Popover, usePopover } from 'react-native-modal-popover';
 
-import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
@@ -63,63 +63,74 @@ export function TopicNode({
 
   return (
     <>
-      <TouchableOpacity
-        disabled={
+      <View
+        opacity={
           studentTechnology &&
           Math.floor(topic.layer) > studentTechnology?.current_layer
+            ? 0.2
+            : 1
         }
-        ref={touchableRef}
-        onPress={() => openPopover()}
       >
-        <AnimatedCircularProgress
-          size={120}
-          width={8}
-          fill={
-            topic.UserTopic[0]?.current_difficulty
-              ? ((topic.UserTopic[0].current_difficulty - 1) / 3) * 100
-              : 0
+        <TouchableOpacity
+          disabled={
+            studentTechnology &&
+            Math.floor(topic.layer) > studentTechnology?.current_layer
           }
-          rotation={135}
-          tintColor={
-            topic.UserTopic[0]?.current_difficulty === 4 ? '#947e03' : '#3fb134'
-          }
-          backgroundColor="#E5E5E5"
+          ref={touchableRef}
+          onPress={() => openPopover()}
         >
-          {() => (
-            <Box
-              alignItems="center"
-              boxSize={95}
-              justifyContent="center"
-              rounded="full"
-              bg={
-                topic.UserTopic[0]?.current_difficulty
-                  ? `level.${topic.UserTopic[0]?.current_difficulty}`
-                  : 'level.0'
-              }
-            >
-              <Text textAlign="center" color="dark.50" fontWeight="700">
+          <AnimatedCircularProgress
+            size={120}
+            width={8}
+            fill={
+              topic.UserTopic[0]?.current_difficulty
+                ? ((topic.UserTopic[0].current_difficulty - 1) / 3) * 100
+                : 0
+            }
+            rotation={135}
+            tintColor={
+              topic.UserTopic[0]?.current_difficulty === 4
+                ? '#947e03'
+                : '#3fb134'
+            }
+            backgroundColor="#E5E5E5"
+          >
+            {() => (
+              <Box
+                alignItems="center"
+                boxSize={95}
+                justifyContent="center"
+                rounded="full"
+                bg={
+                  topic.UserTopic[0]?.current_difficulty
+                    ? `level.${topic.UserTopic[0]?.current_difficulty}`
+                    : 'level.0'
+                }
+              >
+              <Text textAlign="center" color="white" fontWeight="700">
                 {topic.name}
               </Text>
             </Box>
           )}
         </AnimatedCircularProgress>
 
-        {topic.UserTopic[0]?.current_difficulty > 1 && (
-          <View position="absolute" left={85} top={68}>
-            <FontAwesome5 name="crown" size={32} color="#ffcc00" />
-            <Text
-              textAlign="center"
-              color="dark.200"
-              fontWeight="bold"
-              position="absolute"
-              right={4}
-              top={2}
-            >
-              {topic.UserTopic[0].current_difficulty - 1}
-            </Text>
-          </View>
-        )}
-      </TouchableOpacity>
+          {topic.UserTopic[0]?.current_difficulty > 1 && (
+            <View position="absolute" left={85} top={68}>
+              <FontAwesome5 name="crown" size={32} color="#ffcc00" />
+              <Text
+                textAlign="center"
+                color="dark.200"
+                fontWeight="bold"
+                position="absolute"
+                right={4}
+                top={2}
+              >
+                {topic.UserTopic[0].current_difficulty - 1}
+              </Text>
+            </View>
+          )}
+        </TouchableOpacity>
+      </View>
 
       <Popover
         placement="top"
