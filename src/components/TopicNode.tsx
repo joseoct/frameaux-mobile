@@ -36,6 +36,7 @@ export function TopicNode({
     try {
       await api.post(`/students-topics/${topic.id}`);
 
+      closePopover();
       navigator.navigate('Exercises', { topicId: topic.id, difficulty: 1 });
     } catch (error) {
 
@@ -47,6 +48,8 @@ export function TopicNode({
   }
 
   function handleGoToExercises() {
+    closePopover();
+
     navigator.navigate('Exercises', {
       topicId: topic.id,
       difficulty: topic.UserTopic[0]?.current_difficulty,
