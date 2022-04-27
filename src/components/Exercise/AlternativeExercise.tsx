@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { Button, Stack, TextArea, Text, VStack, HStack, useContrastText, Box } from 'native-base';
+import { Button, Stack, ScrollView, Text, VStack } from 'native-base';
 import { IAlternativeExercise } from '../Exercise/index';
-import { Animated } from 'react-native';
 
 interface AlternativeExerciseProps {
   exercise: IAlternativeExercise;
@@ -33,7 +32,7 @@ export function AlternativeExercise({ exercise, onVerifyAnswer }: AlternativeExe
   return (
     <>
       <VStack flex={1} m={2} space={2}>
-        <Box
+        <ScrollView
           flex={1}
           color="gray.100"
           fontFamily="mono"
@@ -41,10 +40,12 @@ export function AlternativeExercise({ exercise, onVerifyAnswer }: AlternativeExe
           background="gray.900"
           borderWidth={1}
           borderColor="gray.600"
-          padding={2}
+          px={2}
         >
-          {exercise.question}
-        </Box>
+          <Text>
+            {exercise.question}
+          </Text>
+        </ScrollView>
 
         <Button.Group w="100%" direction="column">
           {exercise.answer.map((item, index) => (

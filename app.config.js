@@ -2,10 +2,10 @@ export default {
   expo: {
     name: 'Frameaux',
     icon: './src/assets/icon.png',
-    version: '1.0.2',
+    version: '1.0.3',
     ios: {
       bundleIdentifier: 'com.frameaux',
-      buildNumber: '1.0.2',
+      buildNumber: '1.0.3',
     },
     android: {
       package: 'com.frameaux',
