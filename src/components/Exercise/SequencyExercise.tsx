@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, HStack, Stack, Text, TextArea, VStack } from 'native-base';
+import { Button, HStack, Stack, Box, VStack } from 'native-base';
 
 import { shuffleArray } from '../../utils/arrayUtils';
 
@@ -54,15 +54,18 @@ export function SequencyExercise({ exercise, onVerifyAnswer }: SequencyExerciseP
   return (
     <>
       <VStack flex={1} m={2} space={2}>
-        <TextArea
-          totalLines={16}
-          color="gray.100"
+        <Box
+          flex={1}
+          color="purple.100"
           fontFamily="mono"
           fontSize={16}
           background="gray.900"
-          value={exercise.question}
-          isDisabled
-        />
+          borderWidth={1}
+          borderColor="gray.600"
+          padding={2}
+        >
+          {exercise.question}
+        </Box>
 
         <Lines
           handleOnSubToSequency={handleSubToSequency}

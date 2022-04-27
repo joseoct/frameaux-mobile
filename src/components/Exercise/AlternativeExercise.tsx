@@ -33,15 +33,18 @@ export function AlternativeExercise({ exercise, onVerifyAnswer }: AlternativeExe
   return (
     <>
       <VStack flex={1} m={2} space={2}>
-        <TextArea
-          totalLines={16}
+        <Box
+          flex={1}
           color="gray.100"
           fontFamily="mono"
           fontSize={16}
           background="gray.900"
-          value={exercise.question}
-          isDisabled
-        />
+          borderWidth={1}
+          borderColor="gray.600"
+          padding={2}
+        >
+          {exercise.question}
+        </Box>
 
         <Button.Group w="100%" direction="column">
           {exercise.answer.map((item, index) => (
