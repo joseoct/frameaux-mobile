@@ -57,6 +57,7 @@ Já  para  exercícios  de  sequência, o  estudante  deve  montar  a sequência
 
 #### Exercício proveniente de outro tópico (implementação da Repetição Espaçada)
 Exercícios proveniente de outros tópicos (implementação da Repetição Espaçada) possuem uma tag “Você se lembra?”
+
 <img src="https://i.imgur.com/tjkvXCD.png" alt="login"/>
 
 [Link](https://drive.google.com/file/d/1wNvaCHskW_Ky1QivsNj1tYBnb6Hm9ljS/view) para conferir o trabalho completo.
